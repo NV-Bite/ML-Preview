@@ -6,7 +6,17 @@ from google.api_core.exceptions import InternalServerError
 import os
 from dotenv import load_dotenv
 
-api_key = st.secrets["API_KEY"]
+# Load environment variables from .env file only if not on Streamlit Cloud
+if not st.secrets:
+    load_dotenv()
+
+# Get the API key from st.secrets (if available) or fallback to .env
+api_key = st.secrets.get("API_KEY", os.getenv("API_KEY"))
+
+# Check if api_key is available
+if not api_key:
+    raise ValueError(
+        "API Key is not set. Please configure it in .env or Streamlit secrets.")
 
 # Configure the API key
 genai.configure(api_key=api_key)
