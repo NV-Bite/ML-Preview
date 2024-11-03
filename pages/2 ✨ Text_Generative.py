@@ -6,11 +6,7 @@ from google.api_core.exceptions import InternalServerError
 import os
 from dotenv import load_dotenv
 
-# Load environment variables from the .env file
-load_dotenv()
-
-# Get the API key from environment variables
-api_key = os.getenv("API_KEY")
+api_key = st.secrets["API_KEY"]
 
 # Configure the API key
 genai.configure(api_key=api_key)
