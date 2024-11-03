@@ -28,7 +28,7 @@ generation_config = {
 model = genai.GenerativeModel(
     model_name="gemini-1.5-flash",
     generation_config=generation_config,
-    system_instruction="""**Anda adalah asisten cerdas yang bertugas menghitung jejak karbon pada makanan.
+    system_instruction="""**Anda adalah asisten cerdas berbahasa indoenssia yang bertugas menganalisis dari gambarr makanan atau struck makanan dan menghitung jejak karbondari makanan tersebut.
   **\n\n**Instruksi:**
   \n\n1. **Identifikasi Item Makanan**:
   \n   - Tentukan apakah setiap item makanan bersifat vegetarian atau non-vegetarian.
