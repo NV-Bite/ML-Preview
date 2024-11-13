@@ -3,6 +3,9 @@ import func as f
 from PIL import Image
 
 logo = Image.open("image/logo.png")
+example = Image.open("image/how-to-demo.png")
+img_classlist = Image.open("image/class_list.png")
+
 st.set_page_config(
     page_title="Image Classification",
     page_icon=logo,
@@ -22,14 +25,14 @@ with st.expander("Example Usage"):
         + "<p style='text-align: center; font-size:80%; '><i>you can use the expander icon to zoom the image (hover the image)</i></p>",
         unsafe_allow_html=True,
     )
-    st.image("path_to_example_image", use_column_width=True)
+    st.image(example, use_column_width=True)
 
 with st.expander("Class list for predictions"):
     st.markdown(
         "<h6 style='text-align: center;'>Below is the class list for predictions</h6>",
         unsafe_allow_html=True,
     )
-    st.image("path_to_class_list_image")
+    st.image(img_classlist)
 
 st.write("---")
 
@@ -62,14 +65,14 @@ with right_layout:
         unsafe_allow_html=True,
     )
 
-    if img_val is not None:
+    if img_val != None:
         st.image(image=img_val)
 
 st.write("---")
 
 # BUTTON HANDLER
 st.session_state.disabled = True
-if uploaded_file is not None:
+if uploaded_file != None:
     st.session_state.disabled = False
 
 # CENTER BUTTON
@@ -85,4 +88,5 @@ st.write("")
 if solve_button:
     # req to api
     response = f.predict(img_val)
-    st.code(response)
+    st.write(
+        f"Predicted class: {response['class']} with confidence: {response['confidence']}")
