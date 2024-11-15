@@ -27,13 +27,23 @@ def default():
 
 @st.cache_data
 def predict(image):
-    url = api_Url + "/predict/"
+    url = api_Url + "/predict_image"  # Sesuaikan endpoint jika perlu
 
-    payload = {}
-    files = {"file": ("image.jpg", io.BytesIO(image), "image/jpeg")}
+    # Siapkan file image sesuai dengan format di API
+    files = {"image": ("image.jpg", io.BytesIO(image), "image/jpeg")}
     headers = {}
 
-    response = requests.request(
-        "POST", url, headers=headers, data=payload, files=files)
+    # Kirim request POST ke API
+    response = requests.post(url, headers=headers, files=files)
 
-    return response.text
+    # Pastikan bahwa respons dalam format JSON, lalu akses prediksi
+    if response.status_code == 200:
+        result = response.json()
+        predicted_class = result["data"]["predicted_class"]
+        confidence = result["data"]["confidence"]
+
+        # Tampilkan hasil prediksi
+        return predicted_class, confidence
+    else:
+        # Tampilkan pesan error jika ada
+        return f"Error: {response.status_code} - {response.text}"
