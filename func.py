@@ -1,13 +1,13 @@
 import requests
 import os
 import io
-from dotenv import load_dotenv
+# from dotenv import load_dotenv
 import streamlit as st
 
-load_dotenv()
+# load_dotenv()
 
 API_URL = st.secrets["API_URL"]
-API_URL = os.getenv("API_URL")
+# API_URL = os.getenv("API_URL")
 
 
 @st.cache_data
