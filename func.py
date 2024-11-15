@@ -4,7 +4,17 @@ import io
 from dotenv import load_dotenv
 import streamlit as st
 
-api_model = "http://localhost:8000"
+# Load environment variables from .env file only if not on Streamlit Cloud
+if not st.secrets:
+    load_dotenv()
+
+# Get the API key from st.secrets (if available) or fallback to .env
+api_model = st.secrets.get("API_MODEL", os.getenv("API_MODEL"))
+
+# Check if api_key is available
+if not api_model:
+    raise ValueError(
+        "API Key is not set. Please configure it in .env or Streamlit secrets.")
 
 
 @st.cache_data
