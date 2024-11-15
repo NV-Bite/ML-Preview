@@ -9,17 +9,17 @@ if not st.secrets:
     load_dotenv()
 
 # Get the API key from st.secrets (if available) or fallback to .env
-API_URL = st.secrets.get("API_URL", os.getenv("API_URL"))
+api_model = st.secrets.get("API_MODEL", os.getenv("API_MODEL"))
 
 # Check if api_key is available
-if not API_URL:
+if not api_model:
     raise ValueError(
         "API Key is not set. Please configure it in .env or Streamlit secrets.")
 
 
 @st.cache_data
 def default():
-    response = requests.get(API_URL)
+    response = requests.get(api_model)
 
     if response.status_code == 200:
         # data = response.json()
@@ -31,7 +31,7 @@ def default():
 
 @st.cache_data
 def predict(image):
-    url = API_URL + "/predict_image"  # Sesuaikan endpoint jika perlu
+    url = api_model + "/predict_image"  # Sesuaikan endpoint jika perlu
 
     # Siapkan file image sesuai dengan format di API
     files = {"image": ("image.jpg", io.BytesIO(image), "image/jpeg")}
