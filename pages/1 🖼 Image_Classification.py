@@ -12,6 +12,7 @@ if not st.secrets:
 # Get the API key from st.secrets (if available) or fallback to .env
 api_key = st.secrets.get("API_KEY", os.getenv("API_KEY"))
 
+
 # Check if api_key is available
 if not api_key:
     raise ValueError(

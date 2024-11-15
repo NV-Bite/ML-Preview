@@ -1,18 +1,21 @@
 import requests
 import os
 import io
-# from dotenv import load_dotenv
+from dotenv import load_dotenv
 import streamlit as st
 
-# load_dotenv()
+load_dotenv()
 
-API_URL = st.secrets["API_URL"]
-# API_URL = os.getenv("API_URL")
+if not st.secrets:
+    load_dotenv()
+
+# Get the API key from st.secrets (if available) or fallback to .env
+api_Url = st.secrets.get("API_URL", os.getenv("API_URL"))
 
 
 @st.cache_data
 def default():
-    response = requests.get(API_URL)
+    response = requests.get(api_Url)
 
     if response.status_code == 200:
         # data = response.json()
@@ -24,7 +27,7 @@ def default():
 
 @st.cache_data
 def predict(image):
-    url = API_URL + "/predict/"
+    url = api_Url + "/predict/"
 
     payload = {}
     files = {"file": ("image.jpg", io.BytesIO(image), "image/jpeg")}
