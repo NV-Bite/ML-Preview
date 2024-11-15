@@ -4,18 +4,22 @@ import io
 from dotenv import load_dotenv
 import streamlit as st
 
-load_dotenv()
-
+# Load environment variables from .env file only if not on Streamlit Cloud
 if not st.secrets:
     load_dotenv()
 
 # Get the API key from st.secrets (if available) or fallback to .env
-api_Url = st.secrets.get("API_URL", os.getenv("API_URL"))
+api_url = st.secrets.get("API_URL", os.getenv("API_URL"))
+
+# Check if api_key is available
+if not api_url:
+    raise ValueError(
+        "API Key is not set. Please configure it in .env or Streamlit secrets.")
 
 
 @st.cache_data
 def default():
-    response = requests.get(api_Url)
+    response = requests.get(api_url)
 
     if response.status_code == 200:
         # data = response.json()
@@ -27,7 +31,7 @@ def default():
 
 @st.cache_data
 def predict(image):
-    url = api_Url + "/predict_image"  # Sesuaikan endpoint jika perlu
+    url = api_url + "/predict_image"  # Sesuaikan endpoint jika perlu
 
     # Siapkan file image sesuai dengan format di API
     files = {"image": ("image.jpg", io.BytesIO(image), "image/jpeg")}

@@ -180,5 +180,5 @@ if solve_button:
     responsegenai = chat_session.send_message(text)
 
     st.write(
-        f"Predicted class: {predicted_class} with confidence: {confidence}")
+        f"Predicted class: {cleaned_class} with confidence: {confidence}")
     st.write(responsegenai.text)
