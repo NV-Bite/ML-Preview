@@ -6,6 +6,7 @@ import streamlit as st
 
 load_dotenv()
 
+API_URL = st.secrets["API_URL"]
 API_URL = os.getenv("API_URL")
 
 
