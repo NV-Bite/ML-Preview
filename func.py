@@ -30,24 +30,26 @@ def default():
 
 
 @st.cache_data
-def predict(image):
+def predict(image, model):
     url = api_model + "/predict_image"  # Sesuaikan endpoint jika perlu
 
     # Siapkan file image sesuai dengan format di API
     files = {"image": ("image.jpg", io.BytesIO(image), "image/jpeg")}
+    data = {"model": model}
     headers = {}
-
     # Kirim request POST ke API
-    response = requests.post(url, headers=headers, files=files)
+    response = requests.post(url, headers=headers, files=files, data=data)
 
     # Pastikan bahwa respons dalam format JSON, lalu akses prediksi
     if response.status_code == 200:
         result = response.json()
         predicted_class = result["data"]["predicted_class"]
+        print(predicted_class)
         confidence = result["data"]["confidence"]
-
-        # Tampilkan hasil prediksi
-        return predicted_class, confidence
+        print(confidence)
+        generated_text = result["data"]["GenText"]
+        print(generated_text)
+        return predicted_class, confidence, generated_text
     else:
         # Tampilkan pesan error jika ada
         return f"Error: {response.status_code} - {response.text}"
