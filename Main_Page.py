@@ -2,6 +2,7 @@ import streamlit as st
 from PIL import Image
 import base64
 from io import BytesIO
+import os
 
 # Fungsi untuk mengonversi gambar ke Base64
 
@@ -13,12 +14,15 @@ def image_to_base64(image: Image.Image) -> str:
 
 
 # Load images
-logo = Image.open(r"image\logo.jpg")
-logo_green = Image.open(r"image\logo_white.png")
+
+logo_path = os.path.join("image", "logo.jpg")  # Path universal
+logo = Image.open(logo_path)
+logo_green = os.path.join("image", "logo_white.png")
+logo_green = Image.open(logo_green)
 
 # Set page configuration
 st.set_page_config(
-    page_title="Welcome to TechWas!",
+    page_title="Welcome to NV-Bite!",
     page_icon=logo,
 )
 
