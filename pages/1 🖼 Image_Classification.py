@@ -5,11 +5,10 @@ from dotenv import load_dotenv
 import os
 
 # Load environment variables from .env file only if not on Streamlit Cloud
-if not st.secrets:
-    load_dotenv()
+load_dotenv()
 
 # Get the API key from st.secrets (if available) or fallback to .env
-api_key = st.secrets.get("API_KEY", os.getenv("API_KEY"))
+api_key = os.getenv("API_KEY")
 
 # Check if api_key is available
 if not api_key:
@@ -17,7 +16,7 @@ if not api_key:
         "API Key is not set. Please configure it in .env or Streamlit secrets.")
 
 # Get the API model URL from st.secrets (if available) or fallback to .env
-api_model = st.secrets.get("API_MODEL", os.getenv("API_MODEL"))
+api_model = os.getenv("API_MODEL")
 
 # Check if api_model is available
 if not api_model:
@@ -67,9 +66,6 @@ st.write("---")
 
 img_val = None
 
-# Pilih model yang akan digunakan
-model_choice = st.selectbox("Choose model", ["xception", "inceptionV3"])
-
 left_layout, right_layout = st.columns(2)
 
 with left_layout:
@@ -111,9 +107,8 @@ with mid:
 st.write("")
 
 if solve_button:
-    predicted_class, confidence, generated_text = f.predict(
-        img_val, model_choice)
+    predicted_class, confidence = f.predict(
+        img_val)
 
     st.write(
         f"Predicted class: {predicted_class} with confidence: {confidence}%")
-    st.write(generated_text)
