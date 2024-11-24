@@ -13,8 +13,8 @@ def image_to_base64(image: Image.Image) -> str:
 
 
 # Load images
-logo = Image.open("image\logo.jpg")
-logo_green = Image.open("image\logo_white.png")
+logo = Image.open(r"image\logo.jpg")
+logo_green = Image.open(r"image\logo_white.png")
 
 # Set page configuration
 st.set_page_config(
