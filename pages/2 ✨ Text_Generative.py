@@ -142,7 +142,7 @@ def load_image(image_path):
 
 # Load the logo image
 logo = os.path.join("image", "logo.jpg")
-logo = Image.open(r"image\logo.jpg")
+logo = Image.open(logo)
 
 # Set Streamlit page configuration
 st.set_page_config(
