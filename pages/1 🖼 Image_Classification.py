@@ -4,9 +4,12 @@ from PIL import Image
 from dotenv import load_dotenv
 import os
 
-logo = Image.open(r"image\logo.jpg")
-example = Image.open(r"image\dont_do.png")
-img_classlist = Image.open(r"image\list_class.png")
+logo_path = os.path.join("image", "logo.jpg")
+logo = Image.open(logo_path)
+example = os.path.join("image", "dont_do.png")
+example = Image.open(example)
+img_classlist = os.path.join("image", "list_class.png")
+img_classlist = Image.open(img_classlist)
 
 st.set_page_config(
     page_title="Image Classification",
