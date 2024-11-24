@@ -4,25 +4,6 @@ from PIL import Image
 from dotenv import load_dotenv
 import os
 
-# Load environment variables from .env file only if not on Streamlit Cloud
-load_dotenv()
-
-# Get the API key from st.secrets (if available) or fallback to .env
-api_key = os.getenv("API_KEY")
-
-# Check if api_key is available
-if not api_key:
-    raise ValueError(
-        "API Key is not set. Please configure it in .env or Streamlit secrets.")
-
-# Get the API model URL from st.secrets (if available) or fallback to .env
-api_model = os.getenv("API_MODEL")
-
-# Check if api_model is available
-if not api_model:
-    raise ValueError(
-        "API Model URL is not set. Please configure it in .env or Streamlit secrets.")
-
 logo = Image.open("image\logo.jpg")
 example = Image.open("image\dont_do.png")
 img_classlist = Image.open("image\list_class.png")
