@@ -5,7 +5,6 @@ from dotenv import load_dotenv
 import streamlit as st
 
 load_dotenv()
-# Get the API key from st.secrets (if available) or fallback to .env
 API_MODEL = st.secrets.get("API_MODEL", os.getenv("API_MODEL"))
 
 
@@ -26,7 +25,12 @@ def predict(image):
     files = {"image": ("image.jpg", io.BytesIO(image), "image/jpeg")}
     headers = {}
     # Kirim request POST ke API
-    response = requests.post(url, headers=headers, files=files)
+    try:
+        response = requests.post(url, headers=headers, files=files)
+        response.raise_for_status()  # Raise an error for bad status codes
+    except requests.exceptions.RequestException as e:
+        st.error(f"An error occurred: {e}")
+        return None, None
 
     # Pastikan bahwa respons dalam format JSON, lalu akses prediksi
     if response.status_code == 200:
@@ -36,4 +40,5 @@ def predict(image):
         return predicted_class, confidence
     else:
         # Tampilkan pesan error jika ada
-        return f"Error: {response.status_code} - {response.text}"
+        st.error(f"Error: {response.status_code} - {response.text}")
+        return None, None

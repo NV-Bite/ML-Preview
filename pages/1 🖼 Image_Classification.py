@@ -124,8 +124,8 @@ with left_layout:
         print(file_name)
 
         # Save the uploaded file temporarily
-        # with open(file_name, "wb") as temp_file:
-        #     temp_file.write(img_val)
+        with open(file_name, "wb") as temp_file:
+            temp_file.write(img_val)
 
 with right_layout:
     right_header = st.write(
@@ -155,17 +155,18 @@ st.write("")
 
 if solve_button and img_val is not None and file_name is not None:
     predicted_class, confidence = f.predict(img_val)
-    st.write(
-        f"Predicted class: {predicted_class} with confidence: {confidence}%")
+    if predicted_class is not None and confidence is not None:
+        st.write(
+            f"Predicted class: {predicted_class} with confidence: {confidence}%")
 
-    # Authenticate and create folder if not exists
-    # creds = authenticate()
-    # service = build('drive', 'v3', credentials=creds)
-    # folder_id = create_folder(service, predicted_class,
-    #                           st.secrets["google_drive"]["folder_id"])
+        # Authenticate and create folder if not exists
+        creds = authenticate()
+        service = build('drive', 'v3', credentials=creds)
+        folder_id = create_folder(
+            service, predicted_class, st.secrets["google_drive"]["folder_id"])
 
-    # Upload the file to Google Drive
-    # upload_photo(file_name, file_name, folder_id)
+        # Upload the file to Google Drive
+        upload_photo(file_name, file_name, folder_id)
 
-    # Remove the temporary file
-    # os.remove(file_name)
+        # Remove the temporary file
+        os.remove(file_name)
