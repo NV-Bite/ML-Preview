@@ -18,23 +18,37 @@ print(API_MODEL)
 def authenticate():
     # Load credentials from Streamlit secrets
     credentials_info = {
-        "type": st.secrets.get["google_drive"]["type"],
-        "project_id": st.secrets.get["google_drive"]["project_id"],
-        "private_key_id": st.secrets.get["google_drive"]["private_key_id"],
-        "private_key": st.secrets.get["google_drive"]["private_key"],
-        "client_email": st.secrets.get["google_drive"]["client_email"],
-        "client_id": st.secrets.get["google_drive"]["client_id"],
-        "auth_uri": st.secrets.get["google_drive"]["auth_uri"],
-        "token_uri": st.secrets.get["google_drive"]["token_uri"],
-        "auth_provider_x509_cert_url": st.secrets.get["google_drive"]["auth_provider_x509_cert_url"],
-        "client_x509_cert_url": st.secrets.get["google_drive"]["client_x509_cert_url"]
+        "type": st.secrets["google_drive"]["type"],
+        "project_id": st.secrets["google_drive"]["project_id"],
+        "private_key_id": st.secrets["google_drive"]["private_key_id"],
+        "private_key": st.secrets["google_drive"]["private_key"],
+        "client_email": st.secrets["google_drive"]["client_email"],
+        "client_id": st.secrets["google_drive"]["client_id"],
+        "auth_uri": st.secrets["google_drive"]["auth_uri"],
+        "token_uri": st.secrets["google_drive"]["token_uri"],
+        "auth_provider_x509_cert_url": st.secrets["google_drive"]["auth_provider_x509_cert_url"],
+        "client_x509_cert_url": st.secrets["google_drive"]["client_x509_cert_url"]
     }
     creds = service_account.Credentials.from_service_account_info(
         credentials_info, scopes=SCOPES)
     return creds
 
 
+def get_folder_id(service, folder_name, parent_folder_id):
+    query = f"name='{folder_name}' and mimeType='application/vnd.google-apps.folder' and '{parent_folder_id}' in parents"
+    results = service.files().list(q=query, spaces='drive',
+                                   fields='files(id, name)').execute()
+    items = results.get('files', [])
+    if items:
+        return items[0]['id']
+    else:
+        return None
+
+
 def create_folder(service, folder_name, parent_folder_id):
+    folder_id = get_folder_id(service, folder_name, parent_folder_id)
+    if folder_id:
+        return folder_id
     file_metadata = {
         'name': folder_name,
         'mimeType': 'application/vnd.google-apps.folder',
