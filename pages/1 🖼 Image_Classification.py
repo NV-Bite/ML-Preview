@@ -10,6 +10,9 @@ import json
 
 # Google Drive API setup
 SCOPES = ['https://www.googleapis.com/auth/drive.file']
+API_MODEL = st.secrets.get("API_MODEL", os.getenv("API_MODEL"))
+
+print(API_MODEL)
 
 
 def authenticate():
