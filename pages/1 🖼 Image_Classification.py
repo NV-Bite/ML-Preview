@@ -15,16 +15,16 @@ SCOPES = ['https://www.googleapis.com/auth/drive.file']
 def authenticate():
     # Load credentials from Streamlit secrets
     credentials_info = {
-        "type": st.secrets["google_drive"]["type"],
-        "project_id": st.secrets["google_drive"]["project_id"],
-        "private_key_id": st.secrets["google_drive"]["private_key_id"],
-        "private_key": st.secrets["google_drive"]["private_key"],
-        "client_email": st.secrets["google_drive"]["client_email"],
-        "client_id": st.secrets["google_drive"]["client_id"],
-        "auth_uri": st.secrets["google_drive"]["auth_uri"],
-        "token_uri": st.secrets["google_drive"]["token_uri"],
-        "auth_provider_x509_cert_url": st.secrets["google_drive"]["auth_provider_x509_cert_url"],
-        "client_x509_cert_url": st.secrets["google_drive"]["client_x509_cert_url"]
+        "type": st.secrets.get["google_drive"]["type"],
+        "project_id": st.secrets.get["google_drive"]["project_id"],
+        "private_key_id": st.secrets.get["google_drive"]["private_key_id"],
+        "private_key": st.secrets.get["google_drive"]["private_key"],
+        "client_email": st.secrets.get["google_drive"]["client_email"],
+        "client_id": st.secrets.get["google_drive"]["client_id"],
+        "auth_uri": st.secrets.get["google_drive"]["auth_uri"],
+        "token_uri": st.secrets.get["google_drive"]["token_uri"],
+        "auth_provider_x509_cert_url": st.secrets.get["google_drive"]["auth_provider_x509_cert_url"],
+        "client_x509_cert_url": st.secrets.get["google_drive"]["client_x509_cert_url"]
     }
     creds = service_account.Credentials.from_service_account_info(
         credentials_info, scopes=SCOPES)
