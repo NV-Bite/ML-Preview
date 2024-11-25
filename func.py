@@ -5,7 +5,8 @@ from dotenv import load_dotenv
 import streamlit as st
 
 load_dotenv()
-API_MODEL = os.getenv("API_MODEL")
+# Get the API key from st.secrets (if available) or fallback to .env
+API_MODEL = st.secrets.get("API_MODEL", os.getenv("API_MODEL"))
 
 
 @st.cache_data
