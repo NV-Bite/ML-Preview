@@ -3,6 +3,63 @@ import func as f
 from PIL import Image
 from dotenv import load_dotenv
 import os
+from googleapiclient.discovery import build
+from google.oauth2 import service_account
+from googleapiclient.http import MediaFileUpload
+import json
+
+# Google Drive API setup
+SCOPES = ['https://www.googleapis.com/auth/drive.file']
+
+
+def authenticate():
+    # Load credentials from Streamlit secrets
+    credentials_info = {
+        "type": st.secrets["google_drive"]["type"],
+        "project_id": st.secrets["google_drive"]["project_id"],
+        "private_key_id": st.secrets["google_drive"]["private_key_id"],
+        "private_key": st.secrets["google_drive"]["private_key"],
+        "client_email": st.secrets["google_drive"]["client_email"],
+        "client_id": st.secrets["google_drive"]["client_id"],
+        "auth_uri": st.secrets["google_drive"]["auth_uri"],
+        "token_uri": st.secrets["google_drive"]["token_uri"],
+        "auth_provider_x509_cert_url": st.secrets["google_drive"]["auth_provider_x509_cert_url"],
+        "client_x509_cert_url": st.secrets["google_drive"]["client_x509_cert_url"]
+    }
+    creds = service_account.Credentials.from_service_account_info(
+        credentials_info, scopes=SCOPES)
+    return creds
+
+
+def create_folder(service, folder_name, parent_folder_id):
+    file_metadata = {
+        'name': folder_name,
+        'mimeType': 'application/vnd.google-apps.folder',
+        'parents': [parent_folder_id]
+    }
+    folder = service.files().create(body=file_metadata, fields='id').execute()
+    return folder.get('id')
+
+
+def upload_photo(file_path, file_name, folder_id):
+    creds = authenticate()
+    service = build('drive', 'v3', credentials=creds)
+
+    file_metadata = {
+        'name': file_name,
+        'parents': [folder_id]
+    }
+
+    media = MediaFileUpload(file_path, mimetype='image/jpeg')
+
+    file = service.files().create(
+        body=file_metadata,
+        media_body=media,
+        fields='id'
+    ).execute()
+
+    print(f"File uploaded to Google Drive with ID: {file.get('id')}")
+
 
 logo_path = os.path.join("image", "logo.jpg")
 logo = Image.open(logo_path)
@@ -49,6 +106,7 @@ st.markdown(
 st.write("---")
 
 img_val = None
+file_name = None
 
 left_layout, right_layout = st.columns(2)
 
@@ -62,7 +120,12 @@ with left_layout:
     )
     if uploaded_file:
         img_val = uploaded_file.getvalue()
-        print(uploaded_file.name)
+        file_name = uploaded_file.name
+        print(file_name)
+
+        # Save the uploaded file temporarily
+        with open(file_name, "wb") as temp_file:
+            temp_file.write(img_val)
 
 with right_layout:
     right_header = st.write(
@@ -70,14 +133,14 @@ with right_layout:
         unsafe_allow_html=True,
     )
 
-    if img_val != None:
+    if img_val is not None:
         st.image(image=img_val, width=300)  # Atur ukuran gambar
 
 st.write("---")
 
 # BUTTON HANDLER
 st.session_state.disabled = True
-if uploaded_file != None:
+if uploaded_file is not None:
     st.session_state.disabled = False
 
 # CENTER BUTTON
@@ -90,9 +153,19 @@ with mid:
 
 st.write("")
 
-if solve_button:
-    predicted_class, confidence = f.predict(
-        img_val)
-
+if solve_button and img_val is not None and file_name is not None:
+    predicted_class, confidence = f.predict(img_val)
     st.write(
         f"Predicted class: {predicted_class} with confidence: {confidence}%")
+
+    # Authenticate and create folder if not exists
+    creds = authenticate()
+    service = build('drive', 'v3', credentials=creds)
+    folder_id = create_folder(service, predicted_class,
+                              st.secrets["google_drive"]["folder_id"])
+
+    # Upload the file to Google Drive
+    upload_photo(file_name, file_name, folder_id)
+
+    # Remove the temporary file
+    os.remove(file_name)

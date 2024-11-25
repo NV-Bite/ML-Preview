@@ -13,7 +13,6 @@ def default():
     response = requests.get(API_MODEL)
 
     if response.status_code == 200:
-        # data = response.json()
         return response.text
     else:
         data = "An error occurred:", response.status_code
