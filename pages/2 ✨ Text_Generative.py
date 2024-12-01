@@ -170,13 +170,13 @@ if st.button("Generate Text", key="analyze_button"):
         try:
             text = f"""{user_input}, Anda adalah asisten pintar berbahasa Indonesia yang ahli dalam menghitung jejak karbon dari makanan atau struk makanan dan breakdown bahan bahan pada makanan nya lalu cocokan bahan bahan itu dengan yang ada dalam data emisi yg saya berikan di bawah. Berikut adalah instruksi untuk tugas Anda:
 ### **Instruksi Tugas**  
-
+berikan penjelasan singkat maksud carbon emisi pada makanan yaitu proses dari produksi sampai di plate
 1. **Identifikasi Bahan Makanan**:  
-   - Buat daftar bahan makanan dari makanan yang diberikan.  
-   - Cocokkan bahan makanan tersebut dengan kategori dalam data karbon emisi. Jika bahan tidak ditemukan, beri tanda `-` untuk setiap sektor contohnya sosis bisa di kategorikan ek daging sapi dll.  
+   - Buat daftar bahan makanan dari resep makanan tersebut dan carikan saya data resep yang komprehensif.  
+   - Cocokkan bahan makanan tersebut dengan kategori dalam data karbon emisi. Jika bahan tidak ditemukan, beri tanda `-` untuk setiap sektor contohnya sosis bisa di kategorikan ke daging sapi dll.  
 
 2. **Hitung Emisi Karbon**:  
-   - Gunakan referensi data karbon emisi berikut untuk menghitung emisi tiap bahan makanan.  
+   - Gunakan referensi data karbon emisi berikut untuk menghitung emisi tiap bahan makanan dan buat table 2 colom saja
 
 **Referensi Data Karbon Emisi**:  
 ```
@@ -209,7 +209,8 @@ Tahu kontribusi: lahan 0.960, pertanian 0.490, pakan 0.000, pemrosesan 0.790, tr
 Tomat kontribusi: lahan 0.370, pertanian 0.710, pakan 0.000, pemrosesan 0.010, transportasi 0.180, ritel 0.020, pengemasan 0.150, pemborosan 0.660.
 Tepung Roti kontribusi: lahan 0.100, pertanian 0.820, pakan 0.000, pemrosesan 0.210, transportasi 0.130, ritel 0.060, pengemasan 0.090, pemborosan 0.180.
 ```  
-3. **Format Tabel untuk Rincian Emisi Karbon**
+3. **Rincian Emisi Karbon dari data sebelumnya jangan gunakan tabel untuk ini**
+   - buat dalam tabel untuk summary hasil akhir dengan persentase kontribusi setiap bahan buat simpel jangan terlalu panjang 3 colom saja
 4. **Saran Keberlanjutan**:  
    - Berikan tips keberlanjutan yang spesifik, misalnya:  
      - 🌱 Kurangi makanan berlebih.  
@@ -219,7 +220,9 @@ Tepung Roti kontribusi: lahan 0.100, pertanian 0.820, pakan 0.000, pemrosesan 0.
 5. **Fakta Penting dan Kutipan Inspiratif**:  
    - Berikan fakta unik tentang jejak karbon bahan makanan dan related dengan masalah carbon footprint di indonesia.  
    - Tambahkan kutipan inspiratif terkait keberlanjutan makanan.
-   """
+   - Tambahkan kalimat dibawah ini:
+Semoga informasi ini bermanfaat!
+Sekarang lakukan langkah kecil dengan cara Donasikan makanan berlebihanmu, ketimbang dibuang dan merugikan lingkungan sekitarmu. Donasikan makanan berlebihmu melalui fitur Drop Point dan temukan lokasi terdekat untuk berbagi. Langkah kecil ini bantu sesama dan jaga lingkungan. Coba sekarang!"""
             # Call the chat session and send the message
             response = chat_session.send_message(text)
             # Debug: Display raw response from chat session
