@@ -11,9 +11,8 @@ from googleapiclient.http import MediaFileUpload
 SCOPES = ['https://www.googleapis.com/auth/drive.file']
 API_MODEL = st.secrets.get("API_MODEL", os.getenv("API_MODEL"))
 
-print(API_MODEL)
 
-
+# Authenticate to Google Drive
 def authenticate():
     # Load credentials from Streamlit secrets
     credentials_info = {
