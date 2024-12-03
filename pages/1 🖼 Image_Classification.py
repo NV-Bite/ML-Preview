@@ -6,7 +6,6 @@ import os
 from googleapiclient.discovery import build
 from google.oauth2 import service_account
 from googleapiclient.http import MediaFileUpload
-import json
 
 # Google Drive API setup
 SCOPES = ['https://www.googleapis.com/auth/drive.file']
