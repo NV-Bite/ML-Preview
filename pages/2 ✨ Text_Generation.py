@@ -5,7 +5,6 @@ from pathlib import Path
 from google.api_core.exceptions import InternalServerError
 import os
 from dotenv import load_dotenv
-import markdown
 
 # Load environment variables from .env file only if not on Streamlit Cloud
 if not st.secrets:
@@ -226,10 +225,6 @@ Semoga informasi ini bermanfaat!
 Sekarang lakukan langkah kecil dengan cara Donasikan makanan berlebihanmu, ketimbang dibuang dan merugikan lingkungan sekitarmu. Donasikan makanan berlebihmu melalui fitur Drop Point dan temukan lokasi terdekat untuk berbagi. Langkah kecil ini bantu sesama dan jaga lingkungan. Coba sekarang!"""
             # Call the chat session and send the message
             response = chat_session.send_message(text)
-            # Debug: Display raw response from chat session
-            # html_content = markdown.markdown(
-            #     response.text, extensions=["tables"])
-            # st.write(html_content)
             st.write(response.text)
         except InternalServerError as e:
             st.error(f"Internal server error: {e.message}")
