@@ -34,7 +34,7 @@ logo_base64 = image_to_base64(logo_green)
 st.markdown(
     f"""
     <div style="text-align: center;">
-        <img src="data:image/png;base64,{logo_base64}" alt="TechWas Logo" style="width: 50%; max-width: 300px;">
+        <img src="data:image/png;base64,{logo_base64}" alt="NV-Bite Logo" style="width: 50%; max-width: 300px;">
     </div>
     """,
     unsafe_allow_html=True,
@@ -51,7 +51,7 @@ st.markdown(
     """
 NV-Bite is a student-led group focused on creating smarter ways to track and reduce food's carbon footprint. Our team of seven, working in machine learning, cloud computing, and mobile development, has built an app to achieve this goal.
 
-This page highlights our app's **Image Classification** and **Generative Text** features. It identifies food items, calculates their carbon footprint, and gives personalized sustainability tips to help users make eco-friendly choices. We want to show how we're using machine learning to encourage eco-friendly food decisions. Your feedback is important to us. Thank you for visiting!    
+This page highlights our app's **Image Classification** and **Text Generation** features. It identifies food items, calculates their carbon footprint, and gives personalized sustainability tips to help users make eco-friendly choices. We want to show how we're using machine learning to encourage eco-friendly food decisions. Your feedback is important to us. Thank you for visiting!    
 """
 )
 
