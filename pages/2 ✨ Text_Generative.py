@@ -5,6 +5,7 @@ from pathlib import Path
 from google.api_core.exceptions import InternalServerError
 import os
 from dotenv import load_dotenv
+import markdown
 
 # Load environment variables from .env file only if not on Streamlit Cloud
 if not st.secrets:
@@ -146,17 +147,17 @@ logo = Image.open(logo)
 
 # Set Streamlit page configuration
 st.set_page_config(
-    page_title="Text Generative",
+    page_title="Text Generation",
     page_icon=logo,
 )
 
-st.write("# Text Generative Page")
+st.write("# Text Generation Page")
 
 st.markdown(
     """
-In this project, we built a Text Generative system that automatically creates answers based on image classification results.
+In this project, we built a Text Generation system that automatically creates answers based on image classification results.
 
-For text generation, we use **Vertex AI’s** services, particularly the Gemini 1.5 Flash language model. This allows us to generate clear and accurate responses that include food identification, carbon emission breakdown, sustainability tips, and relevant facts, providing users with valuable insights into the environmental impact of their food choices.  
+For Text Generation, we use **Vertex AI’s** services, particularly the Gemini 1.5 Flash language model. This allows us to generate clear and accurate responses that include food identification, carbon emission breakdown, sustainability tips, and relevant facts, providing users with valuable insights into the environmental impact of their food choices.  
 """
 )
 
@@ -226,6 +227,9 @@ Sekarang lakukan langkah kecil dengan cara Donasikan makanan berlebihanmu, ketim
             # Call the chat session and send the message
             response = chat_session.send_message(text)
             # Debug: Display raw response from chat session
+            # html_content = markdown.markdown(
+            #     response.text, extensions=["tables"])
+            # st.write(html_content)
             st.write(response.text)
         except InternalServerError as e:
             st.error(f"Internal server error: {e.message}")
