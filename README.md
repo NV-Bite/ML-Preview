@@ -1,4 +1,4 @@
-# Interactive Web Application for Machine Learning Showcase
+# Web App for Machine Learning Demonstration
 
 This repo contains the following endpoint in our machine learning project:
 
